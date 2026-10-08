@@ -1,0 +1,110 @@
+/* The interactive regions map, preview build. Nothing here applies until imap.js has loaded the
+   ground and set .imap-on, so with scripts off the figure is the plain picture it always was. */
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Noto+Serif+SC:wght@700&display=swap');
+
+.imap-wrap{position:relative}
+/* while the plain plate is held back and the ground is on its way, the frame keeps its shape */
+.imap .imap-view>img{aspect-ratio:1940/2800;background:#e6d6b4}
+.imap .imap-view>img:not([src]){color:transparent}
+.imap-on .imap-view{position:relative;overflow:hidden;aspect-ratio:1940/2800;touch-action:pan-y;cursor:default;outline-offset:3px;-webkit-user-select:none;user-select:none;background:#e6d6b4}
+.imap-on .imap-view.imap-zoomed{touch-action:none;cursor:grab}
+.imap-on .imap-view.imap-dragging{cursor:grabbing}
+.imap-on .imap-view.imap-over-dot{cursor:pointer}
+.imap-on .imap-view.imap-picking{cursor:crosshair}
+.imap-on .imap-view>img{position:absolute;left:0;top:0;width:100%;height:100%;transform-origin:0 0;pointer-events:none;max-width:none}
+.imap-layer{position:absolute;inset:0}
+.imap-over{display:block;width:100%;height:100%}
+.imap-letters{pointer-events:none}
+
+/* the tappable shapes: nothing shows until one is pointed at, found or chosen */
+.imap-shape{fill:#ffe9a8;fill-opacity:0;stroke:#fff2c2;stroke-opacity:0;stroke-width:3;stroke-linejoin:round;vector-effect:non-scaling-stroke;pointer-events:all;cursor:pointer}
+.imap-shape.imap-line{fill:none;stroke-width:16;stroke-linecap:round;pointer-events:stroke}
+.imap-shape.imap-box{stroke-dasharray:3 6}
+@media(hover:hover){
+.imap-shape:hover{fill-opacity:.1;stroke-opacity:.7}
+.imap-shape.imap-line:hover{stroke-opacity:.4}
+.imap-shape.imap-quiet:hover{fill-opacity:0;stroke-opacity:0}
+}
+.imap-shape.is-found{fill-opacity:.14;stroke-opacity:.95;stroke:#ffd37a}
+.imap-shape.is-sel{fill-opacity:.2;stroke-opacity:1}
+.imap-shape.imap-line.is-sel,.imap-shape.imap-line.is-found{fill:none;stroke-opacity:.5}
+.imap-shape.imap-quiet.is-sel{fill-opacity:.06;stroke-opacity:0}
+
+/* the gold dots, drawn again over the picture's own so they stay sharp */
+.imap-dot{pointer-events:none}
+.imap-core{fill:#fff2c2;stroke:#b9791a;stroke-width:1.3}
+.imap-halo{fill:none;stroke:#fff2c2;stroke-width:2.5;opacity:0;transform-box:fill-box;transform-origin:center}
+.imap-finding .imap-dot:not(.is-found):not(.is-sel){opacity:.35}
+.imap-dot.is-found .imap-halo{opacity:1;stroke:#ffd37a;animation:imap-pulse 1.6s ease-in-out infinite}
+.imap-dot.is-sel .imap-halo{opacity:1;stroke:#fff;animation:none}
+@keyframes imap-pulse{0%,100%{transform:scale(.8)}50%{transform:scale(1.25)}}
+@media(prefers-reduced-motion:reduce){.imap-dot.is-found .imap-halo{animation:none}}
+
+.imap-route line{stroke:#fff2c2;stroke-width:2.5;stroke-dasharray:7 6;stroke-linecap:round;vector-effect:non-scaling-stroke;pointer-events:none}
+.imap-pins{pointer-events:none}
+.imap-stand circle{fill:#9a2f2a;stroke:#fff2c2;stroke-width:2}
+.imap-stand path{fill:#9a2f2a;stroke:#fff2c2;stroke-width:2;stroke-linejoin:round}
+.imap-spot path{fill:none;stroke:#fff;stroke-width:2.5;stroke-linecap:round}
+
+/* the bar above the map */
+.imap-bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 22px;padding:4px 4px 12px;font:500 .8rem/1.3 system-ui,sans-serif;color:var(--ink)}
+.imap-bar label,.imap-standing{display:inline-flex;align-items:center;gap:7px;flex-wrap:wrap}
+.imap-bar select,.imap-bar input{font:inherit;color:var(--ink);background:var(--paper);border:1px solid var(--line);padding:6px 8px;min-height:34px}
+.imap-bar .imap-go{flex-wrap:nowrap;max-width:100%;min-width:0}
+.imap-bar select{flex:0 1 auto;min-width:0;max-width:min(100%,24em)}
+.imap-bar input{width:6.2em}
+.imap-hint{flex:1 1 100%;margin:0;color:var(--muted);font-weight:400}
+.imap-btn,.imap-zoom,.imap-pick{font:700 .66rem/1 system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--brown-deep);background:var(--white);border:1px solid var(--line);padding:9px 10px;cursor:pointer}
+.imap-btn:hover,.imap-zoom:hover,.imap-pick:hover{background:var(--paper-2)}
+.imap-btn[aria-pressed="true"]{background:var(--brown-deep);color:var(--paper)}
+
+/* the zoom buttons: imap.js moves them down the map with the reader while it is on the screen */
+.imap-tools{position:absolute;top:0;right:0;z-index:5}
+.imap-tools>div{display:flex;flex-direction:column;gap:6px;align-items:flex-end;padding:10px}
+.imap-zoom{min-width:40px;min-height:40px;font-size:1.15rem;letter-spacing:0;box-shadow:0 3px 10px rgba(0,0,0,.3)}
+.imap-zoom.imap-whole{font-size:.62rem;letter-spacing:.08em;min-height:34px}
+.imap-zoom:disabled{opacity:.45;cursor:default}
+
+.imap-tip{position:absolute;z-index:4;transform:translate(-50%,-100%);max-width:260px;padding:5px 9px;background:#17222b;color:#f3e6c4;font:500 .76rem/1.3 system-ui,sans-serif;border:1px solid #6b4a2f;pointer-events:none;text-align:center}
+
+/* the card */
+.imap-card{position:absolute;z-index:6;width:min(340px,calc(100% - 16px));max-height:min(72vh,640px);overflow:auto;padding:16px 18px 16px;background:var(--paper);color:var(--ink);border:1px solid var(--line);border-top:3px solid var(--brown);box-shadow:0 12px 34px rgba(0,0,0,.35);font-size:.92rem;text-align:left}
+.imap-card h4{margin:0 30px 10px 0;font-size:1.3rem;font-weight:500;line-height:1.2;color:var(--brown-deep)}
+.imap-card h4+.imap-facts{margin-top:0}
+.imap-card h5{margin:14px 0 6px;padding-top:12px;border-top:1px solid var(--line);font:700 .68rem/1.2 system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--brown)}
+.imap-card p{margin:0 0 8px}
+.imap-kind{font:700 .64rem/1.2 system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--brown);margin:0 30px 6px 0!important}
+.imap-facts{margin:0 0 8px}
+.imap-facts>div{display:grid;grid-template-columns:7.2em 1fr;gap:8px;padding:5px 0;border-top:1px solid var(--line)}
+.imap-facts dt{font:700 .62rem/1.3 system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.imap-facts dd{margin:0}
+.imap-card code{font-size:.82em;overflow-wrap:anywhere}
+.imap-call{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;padding:7px 0;border-top:1px solid var(--line)}
+.imap-call span{flex:1 1 100%;font:700 .62rem/1.3 system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.imap-call code{flex:1 1 12em}
+.imap-small{font-size:.82rem;color:var(--muted)}
+.imap-close{position:absolute;top:6px;right:6px;width:34px;height:34px;border:0;background:transparent;color:var(--muted);font-size:1.5rem;line-height:1;cursor:pointer}
+.imap-close:hover{color:var(--ink)}
+.imap-read{display:inline-block;margin:0 0 6px}
+.imap-list{list-style:none;margin:0 0 10px;padding:0}
+.imap-list li{margin:0 0 6px}
+.imap-pick{display:block;width:100%;text-align:left;text-transform:none;letter-spacing:0;font:500 .9rem/1.3 inherit;padding:9px 10px}
+
+/* when the map was last updated: at the top of the figure, with scripts on or off, and at the foot of each card */
+.imap-asof{margin:0;padding:4px 4px 12px;font:600 .82rem/1.4 system-ui,sans-serif;color:var(--ink)}
+.imap-asof-card{margin:12px 0 0!important;padding-top:10px;border-top:1px solid var(--line)}
+
+/* in the gazetteer below the map */
+.imap-show{margin-left:6px;font:700 .62rem/1 system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+.imap-found{margin:-30px 0 40px;padding:10px 14px;background:var(--wash);border-left:4px solid var(--gold);font-size:.95rem}
+.imap-found .imap-btn{margin-left:4px}
+
+@media(max-width:700px){
+.imap-card{position:fixed;left:8px!important;right:8px;top:auto!important;bottom:8px;width:auto;max-height:58vh;z-index:30}
+.imap-bar{gap:8px 14px}
+.imap-tools>div{padding:6px;gap:5px}
+.imap-zoom{min-width:34px;min-height:34px}
+.imap-zoom.imap-whole{min-height:30px;padding:7px 8px}
+.imap-zoom:disabled{display:none}
+}
+@media print{.imap-bar,.imap-tools,.imap-card,.imap-tip,.imap-show,.imap-found{display:none!important}}

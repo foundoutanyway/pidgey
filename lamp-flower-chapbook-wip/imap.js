@@ -61,8 +61,10 @@
     var h = Math.floor(mins / 60), r = mins % 60;
     return 'about ' + h + (h === 1 ? ' hour' : ' hours') + (r ? ' ' + r + (r === 1 ? ' minute' : ' minutes') : '');
   }
-  // The two walk calls are the shapes Appendix F prints.
+  // The walk calls are the shapes Appendix F prints. A walk to a mark stops at its near edge
+  // unless the call gives mode: "center", by the town's own walk card.
   function callMark(mark) { return 'world { do: "walk", args: { mark_id: "' + mark + '" } }'; }
+  function callMarkCenter(mark) { return 'world { do: "walk", args: { mark_id: "' + mark + '", mode: "center" } }'; }
   function callPoint(x, y) { return 'world { do: "walk", args: { to_x: ' + tidy(x) + ', to_y: ' + tidy(y) + ' } }'; }
 
   function put(text) {
@@ -393,8 +395,9 @@
       return box;
     }
     if (s.type === 'place') {
-      callLine(box, 'To its mark', callMark(s.place.key));
-      callLine(box, 'To its middle, ' + pair(t.x, t.y), callPoint(t.x, t.y));
+      box.appendChild(el('p', 'imap-small', 'A walk to a mark stops at its near edge, so it can end well short of the middle. To go to the middle, the call says so.'));
+      callLine(box, 'To its near edge', callMark(s.place.key));
+      callLine(box, 'To its middle, ' + pair(t.x, t.y), callMarkCenter(s.place.key));
       callLine(box, 'To the spot you tapped, ' + pair(s.spot[0], s.spot[1]), callPoint(s.spot[0], s.spot[1]));
     } else {
       callLine(box, 'To ' + t.to + ', ' + pair(t.x, t.y), callPoint(t.x, t.y));

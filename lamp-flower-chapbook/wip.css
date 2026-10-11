@@ -38,6 +38,8 @@
 .staff-dashed{border-style:dashed;border-color:var(--brown);box-shadow:none;background:transparent}
 .staff-grid .staff-dashed:last-child:nth-child(3n+1){grid-column:2}
 .wip-note{margin:10px 0!important;padding:6px 10px;border:1px dashed var(--line);font:600 .72rem/1.5 system-ui,sans-serif;color:var(--brown)}
+/* A typesetter's note on a place card is set in the book's own face, lighter and smaller than the entry. */
+.entry-copy .wip-note{margin:16px 0 0!important;padding:10px 14px;font:italic 400 .86rem/1.55 Newsreader,Georgia,serif;color:var(--muted)}
 .wip-doors{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;max-width:1180px;margin:0 auto;padding:26px 24px 6px}
 /* Pidgey goods, a page of its own. Added 2026-10-10. Each wallpaper is a taped print with its
    name and a download under it; the game is one wide card with a sprite beside it. */

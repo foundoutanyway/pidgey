@@ -380,11 +380,21 @@
   function walkBlock(s) {
     var t = target(s), box = el('div', 'imap-walk'), water = s.type === 'place' && s.place.water;
     box.appendChild(el('h5', null, 'Walk there'));
+    // While the air stands, the minutes follow it, and a point the door gives no walk to gets no call.
+    var air = airNow(), shutSaid = false;
+    function pointCall(label, x, y, text) {
+      if (air && airRoom(air, x, y) <= 0) {
+        if (!shutSaid) { box.appendChild(el('p', 'imap-small', AIR.says[1])); shutSaid = true; }
+        return;
+      }
+      callLine(box, label, text);
+    }
     if (stand) {
       var dist = Math.hypot(t.x - stand.x, t.y - stand.y);
-      box.appendChild(el('p', null, 'From where you stand, ' + pair(stand.x, stand.y) + ': ' + meters(dist) + ' in a straight line to ' + t.to +
-        ', ' + minutes(dist) + ' at town pace, 5 km an hour.'));
-      box.appendChild(el('p', 'imap-small', 'A straight line takes no account of water.'));
+      var share = air ? airLeg(air, stand.x, stand.y, t.x, t.y) : 1;
+      var from = 'From where you stand, ' + pair(stand.x, stand.y) + ': ' + meters(dist) + ' in a straight line to ' + t.to;
+      box.appendChild(el('p', null, share == null ? from + '.' : from + ', ' + minutes(dist / share) + ' at town pace, 5 km an hour.'));
+      box.appendChild(el('p', 'imap-small', air ? AIR.says[0] : 'A straight line takes no account of water.'));
     } else {
       var p = el('p', null, 'Say where you stand and this card gives the distance. ');
       p.appendChild(button('Pick where I stand', 'imap-btn', function () { setPicking(true); }));
@@ -397,15 +407,15 @@
     if (s.type === 'place' && s.place.coordsOnly) {
       // The town's own ground: the door does not take a walk to it by name. Added 2026-10-10 with the Keeping Works.
       box.appendChild(el('p', 'imap-small', 'This is the town’s own ground. The door does not take a walk to it by name, so both calls go by coordinates.'));
-      callLine(box, 'To its middle, ' + pair(t.x, t.y), callPoint(t.x, t.y));
-      callLine(box, 'To the spot you tapped, ' + pair(s.spot[0], s.spot[1]), callPoint(s.spot[0], s.spot[1]));
+      pointCall('To its middle, ' + pair(t.x, t.y), t.x, t.y, callPoint(t.x, t.y));
+      pointCall('To the spot you tapped, ' + pair(s.spot[0], s.spot[1]), s.spot[0], s.spot[1], callPoint(s.spot[0], s.spot[1]));
     } else if (s.type === 'place') {
       box.appendChild(el('p', 'imap-small', 'A walk to a mark stops at its near edge: the first of its ground on your straight line to its middle. That can be well short of the middle, and on a long or wavy shape it may not be the closest point. To go to the middle, the call says so. A mark knows its middle and its outline, not its way in. If its keeper has named an entrance, such as a path or a gate, tap that spot and walk there.'));
       callLine(box, 'To its near edge', callMark(s.place.key));
-      callLine(box, 'To its middle, ' + pair(t.x, t.y), callMarkCenter(s.place.key));
-      callLine(box, 'To the spot you tapped, ' + pair(s.spot[0], s.spot[1]), callPoint(s.spot[0], s.spot[1]));
+      pointCall('To its middle, ' + pair(t.x, t.y), t.x, t.y, callMarkCenter(s.place.key));
+      pointCall('To the spot you tapped, ' + pair(s.spot[0], s.spot[1]), s.spot[0], s.spot[1], callPoint(s.spot[0], s.spot[1]));
     } else {
-      callLine(box, 'To ' + t.to + ', ' + pair(t.x, t.y), callPoint(t.x, t.y));
+      pointCall('To ' + t.to + ', ' + pair(t.x, t.y), t.x, t.y, callPoint(t.x, t.y));
     }
     var foot = el('p', 'imap-small', 'Before filing a walk, check the walkers door. The steps are in ');
     var a = el('a', null, 'Appendix B'); a.href = 'notes.html#the-mcp-door';
@@ -543,6 +553,39 @@
       if (n <= s[i + 1][0]) return s[i][1] + (s[i + 1][1] - s[i][1]) * (n - s[i][0]) / (s[i + 1][0] - s[i][0]);
     }
     return s[s.length - 1][1];
+  }
+  // The air as it stands now: the clear box, the band's width inside its edge, and how thick the
+  // band is. Null when there is none.
+  function airNow() {
+    if (!AIR) return null;
+    var n = airStep(Date.now()), inset = airIn(n);
+    if (inset == null) return null;
+    var s = AIR.steps, first = s[0][0], last = s[s.length - 1][0];
+    var u = last > first ? clamp((n - first) / (last - first), 0, 1) : 1;
+    var th = AIR.thick, b = AIR.box;
+    return { x0: b[0] + inset, y0: b[1] + inset, x1: b[2] - inset, y1: b[3] - inset, band: AIR.band,
+             thick: clamp(th[0] + (th[1] - th[0]) * Math.pow(u, th[2]), 0, 1) };
+  }
+  // How far inside the clear box a point lies, in meters. Zero or less is outside it.
+  function airRoom(a, x, y) { return Math.min(x - a.x0, a.x1 - x, y - a.y0, a.y1 - y); }
+  // One straight walk: the share of open pace it keeps as one even pace, or null where no walk is
+  // given because an end of it lies outside the box. The pace at a point in the band is
+  // (1 - s) to the power of twice the thickness, s being how deep in the band the point lies.
+  function airLeg(a, fx, fy, gx, gy) {
+    if (airRoom(a, fx, fy) <= 0 || airRoom(a, gx, gy) <= 0) return null;
+    var L = Math.hypot(gx - fx, gy - fy);
+    if (!L) return 1;
+    var time = 0, deepest = 0, t = 0;
+    while (t < 1) {
+      var w = airRoom(a, fx + (gx - fx) * t, fy + (gy - fy) * t);
+      var dt = Math.min(Math.min(10, Math.max(0.05, w / 4, L / 20000)) / L, 1 - t);
+      var mid = t + dt / 2, wm = airRoom(a, fx + (gx - fx) * mid, fy + (gy - fy) * mid);
+      var s = wm < a.band ? 1 - wm / a.band : 0;
+      if (s > deepest) deepest = s;
+      time += (dt * L) / Math.max(s > 0 ? Math.pow(1 - s, 2 * a.thick) : 1, 1e-12);
+      t += dt;
+    }
+    return deepest === 0 ? 1 : Math.max(1e-4, Math.min(1, L / time));
   }
   // Value noise, the same at every visit, so the picture does not jump about between two readers.
   function airHash(ix, iy, seed) {

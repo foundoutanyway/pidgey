@@ -94,6 +94,14 @@
 .imap-asof{margin:0;padding:4px 4px 12px;font:600 .82rem/1.4 system-ui,sans-serif;color:var(--ink)}
 .imap-asof-card{margin:12px 0 0!important;padding-top:10px;border-top:1px solid var(--line)}
 
+/* a baked picture under the lettering that takes no tap */
+.imap-air{pointer-events:none}
+/* a small card over the pigeon on the title card; it takes no tap either */
+.imap-aside{pointer-events:none}
+.imap-aside rect{fill:#f6efdd;stroke:#4d4034;stroke-width:1}
+.imap-aside path{fill:#f6efdd;stroke:#4d4034;stroke-width:1;stroke-linejoin:round}
+.imap-aside text{font:italic 500 13.5px Newsreader,Georgia,serif;fill:#2b2622}
+
 /* in the gazetteer below the map */
 .imap-show{margin-left:6px;font:700 .62rem/1 system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
 .imap-found{margin:-30px 0 40px;padding:10px 14px;background:var(--wash);border-left:4px solid var(--gold);font-size:.95rem}

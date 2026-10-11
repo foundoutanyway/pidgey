@@ -529,6 +529,115 @@
     focusOn(pts, pts.length === 1 ? 4 : KMAX);
   }
 
+  // ------------------------------------------------------------------ the air
+  // A soft layer over the map, baked once into a small picture so that zooming and panning cost
+  // nothing. Its numbers come from the page's data. The kit's own notes say what it is.
+  var AIR = D.air || null, airShown = null;
+
+  function airStep(now) { return Math.floor((now - Date.parse(AIR.t0)) / (AIR.step_h * 3600000)); }
+  // Even between the entries, held after the last, and null before the first.
+  function airIn(n) {
+    var s = AIR.steps;
+    if (n < s[0][0]) return null;
+    for (var i = 0; i < s.length - 1; i++) {
+      if (n <= s[i + 1][0]) return s[i][1] + (s[i + 1][1] - s[i][1]) * (n - s[i][0]) / (s[i + 1][0] - s[i][0]);
+    }
+    return s[s.length - 1][1];
+  }
+  // Value noise, the same at every visit, so the picture does not jump about between two readers.
+  function airHash(ix, iy, seed) {
+    var h = (Math.imul(ix, 374761393) + Math.imul(iy, 668265263) + Math.imul(seed, 1442695041)) | 0;
+    h = Math.imul(h ^ (h >>> 13), 1274126177);
+    return ((h ^ (h >>> 16)) >>> 0) / 4294967296;
+  }
+  function airNoise(x, y, seed) {
+    var ix = Math.floor(x), iy = Math.floor(y), fx = x - ix, fy = y - iy;
+    var ux = fx * fx * (3 - 2 * fx), uy = fy * fy * (3 - 2 * fy);
+    var a = airHash(ix, iy, seed), b = airHash(ix + 1, iy, seed), c = airHash(ix, iy + 1, seed), d = airHash(ix + 1, iy + 1, seed);
+    return a + (b - a) * ux + (c - a) * uy + (a - b - c + d) * ux * uy;
+  }
+  function airCloud(x, y, seed) {
+    var sum = 0, amp = 0.5, norm = 0;
+    for (var i = 0; i < 4; i++) { sum += amp * airNoise(x, y, seed + i * 101); norm += amp; amp *= 0.5; x = x * 2.03 + 17.3; y = y * 2.03 - 9.1; }
+    return sum / norm;
+  }
+  function airBake(inset) {
+    var q = 4;                                       // one baked pixel to four of the plate's; the layer is soft
+    var cw = Math.ceil(W / q), ch = Math.ceil(H / q);
+    var c = document.createElement('canvas'); c.width = cw; c.height = ch;
+    var g = c.getContext('2d'), im = g.createImageData(cw, ch), px = im.data;
+    var b = AIR.box, x0 = b[0] + inset, y0 = b[1] + inset, x1 = b[2] - inset, y1 = b[3] - inset;
+    var band = AIR.band, tint = AIR.tint, core = AIR.core;
+    for (var j = 0; j < ch; j++) {
+      for (var i = 0; i < cw; i++) {
+        var t = toTown((i + 0.5) * q, (j + 0.5) * q), x = t[0], y = t[1];
+        // How far outside the box this point lies, in meters. Inside it is negative.
+        var d = Math.max(x0 - x, x - x1, y0 - y, y - y1);
+        if (d < -band - 60) continue;
+        var big = clamp((airCloud(x / 650, y / 650, 11) - 0.3) / 0.4, 0, 1), small = airCloud(x / 170, y / 170, 23);
+        // The edge is ragged inward, by up to the band's width, and never stops short of the box.
+        var reach = big * 300 + small * 100;
+        var solid = clamp((d + reach) / 70 + 1, 0, 1);
+        solid = solid * solid * (3 - 2 * solid);
+        // Inside the box, a thin layer across the band that fades toward the middle.
+        var thin = d < 0 ? Math.pow(1 - clamp(-d / band, 0, 1), 1.4) * (0.3 + 0.35 * small) : 0;
+        var alpha = Math.max(solid * 0.97, thin);
+        if (alpha <= 0.004) continue;
+        var deep = clamp((d + reach * 0.5) / 1500, 0, 1) * (0.55 + 0.45 * big);
+        var o = (j * cw + i) * 4, lift = (small - 0.5) * 44;
+        px[o] = tint[0] + (core[0] - tint[0]) * deep + lift;
+        px[o + 1] = tint[1] + (core[1] - tint[1]) * deep + lift;
+        px[o + 2] = tint[2] + (core[2] - tint[2]) * deep + lift;
+        px[o + 3] = alpha * 255;
+      }
+    }
+    g.putImageData(im, 0, 0);
+    return c.toDataURL('image/png');
+  }
+  function airDraw() {
+    if (!AIR) return;
+    var n = airStep(Date.now());
+    if (n === airShown) return;
+    var holder = svg.querySelector('.imap-air');
+    if (!holder) return;
+    var inset = airIn(n), url = null;
+    if (inset != null) {
+      try { url = airBake(inset); } catch (err) { url = null; }   // a browser that cannot bake keeps the plain map
+    }
+    airShown = n;
+    while (holder.firstChild) holder.removeChild(holder.firstChild);
+    airAside(!!url, n);
+    if (!url) return;
+    var pic = sv('image', { x: 0, y: 0, width: W, height: H, preserveAspectRatio: 'none', href: url });
+    pic.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', url);
+    holder.appendChild(pic);
+  }
+  // A small card over the pigeon on the title card, with a tail down to his head. It shows only
+  // while the layer above is drawn. It is drawn in screen pixels and keeps its size at any zoom.
+  function airAside(show, n) {
+    var g = svg.querySelector('.imap-aside');
+    if (!g) return;
+    while (g.firstChild) g.removeChild(g.firstChild);
+    if (!show || !AIR.aside) return;
+    // His lines come in order, each with the step it starts at. The last one already begun is shown.
+    var text = null;
+    AIR.aside.lines.forEach(function (line) { if (line[0] <= n) text = line[1]; });
+    if (!text) return;
+    var w = Math.max(120, Math.round(text.length * 6.4) + 26), h = 30, lift = 13;
+    var outer = sv('g', { transform: 'translate(' + AIR.aside.at[0] + ',' + AIR.aside.at[1] + ')' });
+    var mark = sv('g', { 'class': 'imap-mark' });
+    if (view.clientWidth) mark.setAttribute('transform', 'scale(' + unit() + ')');
+    // The card leans to his left, over open water, so it stays off the ground and the label to his right.
+    var left = -(w - 40);
+    mark.appendChild(sv('rect', { x: left, y: -(h + lift), width: w, height: h, rx: 9 }));
+    mark.appendChild(sv('path', { d: 'M-7,' + (-lift - 1.2) + ' L0,-2 L7,' + (-lift - 1.2) }));
+    var words = sv('text', { x: left + w / 2, y: -(lift + h / 2), 'text-anchor': 'middle', 'dominant-baseline': 'central' });
+    words.textContent = text;
+    mark.appendChild(words);
+    outer.appendChild(mark);
+    g.appendChild(outer);
+  }
+
   // ------------------------------------------------------------------ putting it together
   function start() {
     img.removeAttribute('loading');
@@ -536,6 +645,11 @@
     img.setAttribute('draggable', 'false');
     fig.classList.add('imap-on');
     layer.hidden = false;
+    // The air as it is now. A page left open looks again when the reader comes back to it, and
+    // every ten minutes.
+    airDraw();
+    document.addEventListener('visibilitychange', function () { if (!document.hidden) airDraw(); });
+    setInterval(airDraw, 600000);
     pins = svg.querySelector('.imap-pins');
     view.tabIndex = 0;
     view.setAttribute('role', 'group');

@@ -328,19 +328,56 @@ body.wip-copying .wip-copy{display:none}
 .deli-intro p{margin:0 0 12px;max-width:none;font-size:1.08rem;line-height:1.6}
 .deli .deli-terms{margin:0 0 10px}
 .deli .deli-reminder{padding:9px 14px;font-size:.84rem;line-height:1.5}
-/* A quick reference above the notes: each group and its notes, as links. Added 2026-10-13. */
-.deli-toc{margin:18px 0 6px;padding:14px 18px 8px;border:1px solid var(--line);background:var(--white)}
-.deli-toc-k{margin:0 0 8px;font:700 .68rem/1.2 system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--brown);max-width:none}
-.deli-toc-grid{columns:3 230px;column-gap:28px}
-.deli-toc-grid>div{break-inside:avoid;margin:0 0 12px}
-.deli-toc-g{display:block;font-weight:650;font-size:.98rem;color:var(--brown-deep);text-decoration:none}
+/* A quick reference above the notes: each group and its notes, as links. Added 2026-10-13 as
+   three columns of running links, and set again the same day at her word, "a better toc system
+   (easier to read)". Each group is a block under its name and count. A row gives the note's
+   number first, on a small tag in the color of its own card's paper, then its name, so the
+   numbers and the names each run down a straight column. A group with many notes takes the
+   box's full width and runs its rows in columns. */
+.deli-toc{margin:18px 0 6px;padding:16px 20px 14px;border:1px solid var(--line);background:var(--white);scroll-margin-top:84px}
+.deli-toc-k{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;margin:0 0 12px;font:700 .68rem/1.4 system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--brown);max-width:none}
+.deli-toc-count{font-weight:600;letter-spacing:.08em;color:var(--muted)}
+/* Three things keep the box from growing with every note, all of them the work of delicacies.js:
+   a long group shows its newest rows until asked, the whole list can be put away and starts so
+   on a phone, and a find field narrows the rows and the cards together. The buttons and the
+   field are set down hidden, and the script brings them out. */
+.deli-toc button{margin-left:auto;padding:2px 0;border:0;background:none;font:700 .64rem/1.4 system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--brown);cursor:pointer;white-space:nowrap}
+.deli-toc button:hover,.deli-toc button:focus-visible{text-decoration:underline}
+.deli-toc-h{display:flex;flex-wrap:wrap;align-items:baseline;gap:0 10px;margin:0 0 6px;border-bottom:1px solid var(--line)}
+.deli-toc-h .deli-toc-g{flex:0 1 auto;margin:0;border-bottom:0}
+.deli-toc-h button{padding-bottom:5px}
+.deli-find{display:block;margin:0 0 14px}
+.deli-find input{padding:11px 44px 11px 14px;font:inherit;font-size:1rem}
+.deli-find span{top:11px;right:14px}
+.deli-none{margin:0 0 6px;font-size:.95rem;color:var(--muted);max-width:none}
+.deli-find[hidden],.deli-toc button[hidden]{display:none}
+@media screen{
+.deli-toc:not(.is-finding) .is-folded .deli-toc-old{display:none}
+.deli-toc.is-shut:not(.is-finding) .deli-toc-grid,.deli-toc.is-finding button{display:none}
+.deli-toc.is-shut:not(.is-finding) .deli-toc-k{margin-bottom:10px}
+.deli-toc.is-shut:not(.is-finding) .deli-find{margin-bottom:2px}
+}
+@media print{.deli-toc button,.deli-none{display:none}}
+.deli-toc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(250px,100%),1fr));gap:18px 30px;align-items:start}
+.deli-toc-b{min-width:0}
+.deli-toc-wide{grid-column:1/-1}
+.deli-toc-g{display:flex;align-items:baseline;gap:8px;margin:0 0 6px;padding:0 0 5px;border-bottom:1px solid var(--line);font-weight:650;font-size:1.02rem;line-height:1.3;color:var(--brown-deep);text-decoration:none}
+.deli-toc-g span{font:700 .64rem/1 system-ui,sans-serif;letter-spacing:.1em;color:var(--brown);border:1px solid var(--line);padding:2px 6px}
 .deli-toc-g:hover,.deli-toc-g:focus-visible{text-decoration:underline}
-.deli-toc ul{list-style:none;margin:2px 0 0;padding:0}
-.deli-toc li{margin:0;font-size:.9rem;line-height:1.45}
-.deli-toc li a{display:inline-block;text-decoration:none}
-.deli-toc li a::first-letter{text-transform:uppercase}
-.deli-toc li a:hover,.deli-toc li a:focus-visible{text-decoration:underline}
-.deli-toc li span{font:700 .62rem/1 system-ui,sans-serif;letter-spacing:.08em;color:var(--brown)}
+.deli-toc ol{list-style:none;margin:0;padding:0}
+.deli-toc-wide ol{columns:3 240px;column-gap:30px}
+.deli-toc li{margin:0;break-inside:avoid}
+.deli-toc li a{display:grid;grid-template-columns:2.7rem 1fr;gap:10px;align-items:baseline;margin:0 -6px;padding:4px 6px;font-size:.96rem;line-height:1.35;color:var(--ink);text-decoration:none}
+.deli-toc li a:hover,.deli-toc li a:focus-visible{background:var(--paper-2)}
+.deli-toc-no{padding:2px 0;font:700 .66rem/1.4 system-ui,sans-serif;letter-spacing:.06em;text-align:center;color:var(--brown-deep);background:var(--note);border-bottom:2px solid var(--tape)}
+.deli-toc-n::first-letter{text-transform:uppercase}
+@media(max-width:640px){.deli-toc{scroll-margin-top:112px}.deli-toc-wide ol{columns:1}}
+/* A link back up to the quick reference, at the right of each group's heading. */
+.deli .deli-head .deli-up{margin-left:auto;font:700 .64rem/1.4 system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;white-space:nowrap}
+.deli .deli-head .deli-up:hover,.deli .deli-head .deli-up:focus-visible{text-decoration:underline}
+@media print{.deli .deli-head .deli-up{display:none}}
+/* On a phone the link drops to a line of its own under a long group name, at the right. */
+@media(max-width:640px){.deli .deli-head{flex-wrap:wrap;row-gap:2px}}
 .deli .deli-head{scroll-margin-top:80px}
 @media(max-width:640px){.deli .deli-head{scroll-margin-top:112px}}
 .deli .deli-head{margin:34px 0 2px;font-size:1.5rem;color:var(--brown-deep);display:flex;align-items:baseline;gap:10px}

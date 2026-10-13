@@ -40,6 +40,16 @@
 .wip-note{margin:10px 0!important;padding:6px 10px;border:1px dashed var(--line);font:600 .72rem/1.5 system-ui,sans-serif;color:var(--brown)}
 /* A typesetter's note on a place card is set in the book's own face, lighter and smaller than the entry. */
 .entry-copy .wip-note{margin:16px 0 0!important;padding:10px 14px;font:italic 400 .86rem/1.55 Newsreader,Georgia,serif;color:var(--muted)}
+/* An entry Dom Pidgey updated after it was first filed. His newer words sit in a block of their own,
+   in a different face and color from the entry, so a reader can tell what changed. A row whose
+   value changed takes the same color. Added 2026-10-13 at her word, "updated can have a different
+   font and colour to identify the changes?". The face and the color are the pen's picks. */
+.entry-copy{--upd:#1f6b66}
+@media(prefers-color-scheme:dark){.entry-copy{--upd:#86cfc6}}
+.entry-update{display:block;margin:18px -4px 0;padding:14px 16px 2px;border-left:3px solid var(--upd);background:color-mix(in srgb,var(--upd) 8%,transparent);color:var(--upd);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+.entry-update>span,.entry-update .update-pigeon>span{display:block;font:700 .65rem/1 system-ui,sans-serif;letter-spacing:.13em;text-transform:uppercase;margin-bottom:8px}
+.entry-copy .entry-update p{font-size:.88rem;line-height:1.55;margin:0 0 12px}
+.place-meta dd .upd{color:var(--upd)}
 .wip-doors{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;max-width:1180px;margin:0 auto;padding:26px 24px 6px}
 /* Pidgey goods, a page of its own. Added 2026-10-10. Each wallpaper is a taped print with its
    name and a download under it; the game is one wide card with a sprite beside it. */

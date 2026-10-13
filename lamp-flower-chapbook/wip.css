@@ -319,3 +319,47 @@ body.wip-copying .wip-copy{display:none}
 @media(max-width:800px){.travel-note pre{white-space:pre-wrap;overflow-wrap:anywhere}}
 @media(max-width:640px){.site-nav{flex-wrap:wrap;row-gap:2px}.site-nav .spacer{display:none}.site-nav .index-btn{margin-left:auto}.afterword .wip-disclaimer{scroll-margin-top:112px}}
 @media(max-width:520px){.wip-appendix .wip-table th,.wip-appendix .wip-table td{padding:8px 8px}.wip-appendix .wip-table tbody th{width:auto}}
+/* The delicacies of Postmark, a page of its own after the gazetteer. Added 2026-10-13. His
+   opening words run the section's full width. Each tasting note is a sticky note in the rear
+   matter's own manner: paper, a strip of tape, a slight tilt that straightens under the pointer
+   or when the note is opened. Hers: "can we have different colour notes? and also a tape on it
+   lol". Six papers, taken in turn; the colors are the pen's pick. */
+.deli-intro{margin:0 0 18px}
+.deli-intro p{margin:0 0 12px;max-width:none;font-size:1.08rem;line-height:1.6}
+.deli .deli-terms{margin:0 0 10px}
+.deli .deli-reminder{padding:9px 14px;font-size:.84rem;line-height:1.5}
+.deli .deli-head{margin:34px 0 2px;font-size:1.5rem;color:var(--brown-deep);display:flex;align-items:baseline;gap:10px}
+.deli .deli-head span{font:700 .7rem/1 system-ui,sans-serif;letter-spacing:.1em;color:var(--brown);border:1px solid var(--line);padding:3px 7px}
+.deli-where{margin:0 0 14px;font-size:.95rem;color:var(--muted);max-width:none}
+.deli-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(340px,100%),1fr));gap:34px 26px;align-items:start;padding-top:14px}
+.deli{--n1:#fbf1c8;--n2:#f8dcd6;--n3:#d9e9f1;--n4:#deecd3;--n5:#e8def1;--n6:#fbdfc4;--t1:#b98525;--t2:#b0605a;--t3:#4f7f96;--t4:#5f8a52;--t5:#7d62a0;--t6:#b8743a}
+@media(prefers-color-scheme:dark){.deli{--n1:#3b3522;--n2:#43292a;--n3:#22333d;--n4:#27372a;--n5:#33293f;--n6:#402f20;--t1:#d8aa4d;--t2:#d98f88;--t3:#7fb2c9;--t4:#93c083;--t5:#b59ad6;--t6:#e0a36c}}
+.deli-card{position:relative;min-width:0;background:var(--note,var(--n1));padding:26px 20px 12px;box-shadow:0 14px 28px var(--shadow),0 2px 5px var(--shadow);transform:rotate(-.5deg);transition:transform .2s ease;scroll-margin-top:80px}
+.deli-card:nth-child(2n){transform:rotate(.5deg)}
+.deli-card::before{content:"";position:absolute;z-index:1;top:-12px;left:50%;width:104px;height:24px;margin-left:-52px;background:color-mix(in srgb,var(--tape,var(--t1)) 42%,transparent);box-shadow:0 1px 2px var(--shadow);transform:rotate(-2.5deg)}
+.deli-card:nth-child(2n)::before{transform:rotate(2deg)}
+.deli-card:hover,.deli-card:focus-within,.deli-card:has(details[open]){transform:rotate(0)}
+.deli-c1{--note:var(--n1);--tape:var(--t1)}.deli-c2{--note:var(--n2);--tape:var(--t2)}.deli-c3{--note:var(--n3);--tape:var(--t3)}
+.deli-c4{--note:var(--n4);--tape:var(--t4)}.deli-c5{--note:var(--n5);--tape:var(--t5)}.deli-c6{--note:var(--n6);--tape:var(--t6)}
+.deli-card h3{margin:2px 0 8px;font-size:1.25rem;line-height:1.25;color:var(--brown-deep)}
+.deli-card h3::first-letter{text-transform:uppercase}
+.deli-k{margin:0;font:700 .65rem/1.4 system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--brown-deep);max-width:none}
+.deli-plate{margin:0 0 14px}
+.deli-plate img{display:block;width:100%;height:auto;box-shadow:0 2px 6px var(--shadow)}
+.deli-plate figcaption{margin-top:6px;font:700 .62rem/1.4 system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--brown-deep)}
+.deli-cite{margin:0 0 12px;padding:8px 0;border-top:1px solid color-mix(in srgb,var(--ink) 22%,transparent);border-bottom:1px solid color-mix(in srgb,var(--ink) 22%,transparent);font-size:.9rem;line-height:1.4}
+.deli-cite div{display:grid;grid-template-columns:4.2rem 1fr;gap:8px;margin:2px 0}
+.deli-cite dt{font:700 .62rem/1.9 system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--brown-deep)}
+.deli-cite dd{margin:0}
+.deli-cite a{font-size:.82rem;color:var(--muted);white-space:nowrap}
+.deli-quote{margin:0;padding:0 0 0 14px;border-left:3px solid var(--tape,var(--t1))}
+.deli-quote p,.deli-whole p{margin:0 0 10px;font-size:.98rem;line-height:1.5;max-width:none}
+.deli-whole{margin-top:6px;border-top:1px dashed color-mix(in srgb,var(--ink) 22%,transparent);padding-top:6px}
+.deli-whole summary{cursor:pointer;font:700 .7rem/1.6 system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--brown-deep)}
+.deli-whole[open] summary{margin-bottom:8px}
+@media(max-width:640px){.deli-grid{grid-template-columns:1fr}.deli-card{scroll-margin-top:112px}}
+/* With a tenth link the top bar ran to three rows on a phone, 140px tall, which is taller than
+   the 112px the appendix's anchors leave clear. The links sit a little closer and a little
+   smaller at 640px and under, and the bar is two rows again, 101px at 375 wide. */
+@media(max-width:640px){.site-nav{column-gap:2px}.site-nav a{padding:7px 6px;font-size:.76rem}}
+@media print{.deli-card{transform:none;box-shadow:none;border:1px solid var(--line);break-inside:avoid}.deli-card::before{display:none}.deli-whole>*{display:block}}

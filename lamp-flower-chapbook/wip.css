@@ -328,6 +328,21 @@ body.wip-copying .wip-copy{display:none}
 .deli-intro p{margin:0 0 12px;max-width:none;font-size:1.08rem;line-height:1.6}
 .deli .deli-terms{margin:0 0 10px}
 .deli .deli-reminder{padding:9px 14px;font-size:.84rem;line-height:1.5}
+/* A quick reference above the notes: each group and its notes, as links. Added 2026-10-13. */
+.deli-toc{margin:18px 0 6px;padding:14px 18px 8px;border:1px solid var(--line);background:var(--white)}
+.deli-toc-k{margin:0 0 8px;font:700 .68rem/1.2 system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--brown);max-width:none}
+.deli-toc-grid{columns:3 230px;column-gap:28px}
+.deli-toc-grid>div{break-inside:avoid;margin:0 0 12px}
+.deli-toc-g{display:block;font-weight:650;font-size:.98rem;color:var(--brown-deep);text-decoration:none}
+.deli-toc-g:hover,.deli-toc-g:focus-visible{text-decoration:underline}
+.deli-toc ul{list-style:none;margin:2px 0 0;padding:0}
+.deli-toc li{margin:0;font-size:.9rem;line-height:1.45}
+.deli-toc li a{display:inline-block;text-decoration:none}
+.deli-toc li a::first-letter{text-transform:uppercase}
+.deli-toc li a:hover,.deli-toc li a:focus-visible{text-decoration:underline}
+.deli-toc li span{font:700 .62rem/1 system-ui,sans-serif;letter-spacing:.08em;color:var(--brown)}
+.deli .deli-head{scroll-margin-top:80px}
+@media(max-width:640px){.deli .deli-head{scroll-margin-top:112px}}
 .deli .deli-head{margin:34px 0 2px;font-size:1.5rem;color:var(--brown-deep);display:flex;align-items:baseline;gap:10px}
 .deli .deli-head span{font:700 .7rem/1 system-ui,sans-serif;letter-spacing:.1em;color:var(--brown);border:1px solid var(--line);padding:3px 7px}
 .deli-where{margin:0 0 14px;font-size:.95rem;color:var(--muted);max-width:none}

@@ -4,6 +4,32 @@
    2. a button on the top line puts the whole list away, and on a phone it starts put away;
    3. a find field narrows the rows in the box and the notes on the page together.
    Without this script the box shows every row, open, and has no find field. */
+/* A card's picture opens large over the page. Added the same day at her word, "yeah do 1-5". The
+   picture on a card is a link to its larger copy, so without this script, or in a browser with
+   no dialog, the link opens the picture by itself. */
+(function(){
+ var page=document.getElementById('delicacies');
+ if(!page||!window.HTMLDialogElement)return;
+ var dlg=null,img=null;
+ page.addEventListener('click',function(e){
+  var link=e.target.closest?e.target.closest('a.deli-zoom'):null;
+  if(!link||e.ctrlKey||e.metaKey||e.shiftKey||e.button)return;
+  e.preventDefault();
+  if(!dlg){
+   dlg=document.createElement('dialog');dlg.className='deli-zoomed';
+   img=document.createElement('img');
+   var close=document.createElement('button');close.type='button';close.textContent=page.getAttribute('data-close')||'Close';
+   dlg.appendChild(img);dlg.appendChild(close);document.body.appendChild(dlg);
+   close.addEventListener('click',function(){dlg.close()});
+   // a press on the picture, or on the dark around the box, puts it away
+   dlg.addEventListener('click',function(ev){if(ev.target===dlg||ev.target===img)dlg.close()});
+  }
+  var small=link.querySelector('img');
+  img.alt=small?small.alt:'';img.src=link.href;
+  dlg.showModal();
+ });
+})();
+
 (function(){
  var box=document.getElementById('delicacies-quick');
  if(!box)return;

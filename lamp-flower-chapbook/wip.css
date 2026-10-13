@@ -414,6 +414,20 @@ body.wip-copying .wip-copy{display:none}
 .deli-cite dt{font:700 .62rem/1.9 system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--brown-deep)}
 .deli-cite dd{margin:0}
 .deli-cite a{font-size:.82rem;color:var(--muted);white-space:nowrap}
+/* A card's picture is a link to its larger copy, which delicacies.js opens over the page. */
+.deli-zoom{display:block;cursor:zoom-in}
+.deli-zoom:focus-visible{outline:2px solid var(--tape,var(--t1));outline-offset:3px}
+dialog.deli-zoomed{max-width:min(96vw,1100px);max-height:94vh;margin:auto;padding:10px 10px 6px;border:0;background:var(--white);box-shadow:0 24px 60px rgba(0,0,0,.45)}
+dialog.deli-zoomed::backdrop{background:rgba(20,16,12,.72)}
+dialog.deli-zoomed img{display:block;max-width:100%;max-height:calc(94vh - 64px);width:auto;height:auto;margin:0 auto;cursor:zoom-out}
+dialog.deli-zoomed button{display:block;margin:6px 0 0 auto;padding:6px 4px;border:0;background:none;font:700 .68rem/1.4 system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--brown);cursor:pointer}
+dialog.deli-zoomed button:hover,dialog.deli-zoomed button:focus-visible{text-decoration:underline}
+/* The third row on a card: the food's own mark on the town's record, in its maker's words. */
+.deli-cite .deli-mark q{font-style:italic}
+.deli-cite .deli-mark-id{display:block;margin-top:2px;font:500 .68rem/1.4 ui-monospace,Menlo,Consolas,monospace;color:var(--muted);overflow-wrap:anywhere}
+/* The line at the foot of a gazetteer card that points back to its tasting notes. It stays in
+   the book, so it does not take the arrow the card's outside links take. */
+.window-link.deli-back a::after{content:""}
 .deli-quote{margin:0;padding:0 0 0 14px;border-left:3px solid var(--tape,var(--t1))}
 .deli-quote p,.deli-whole p{margin:0 0 10px;font-size:.98rem;line-height:1.5;max-width:none}
 .deli-whole{margin-top:6px;border-top:1px dashed color-mix(in srgb,var(--ink) 22%,transparent);padding-top:6px}

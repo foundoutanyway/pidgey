@@ -324,6 +324,16 @@ body.wip-copying .wip-copy{display:none}
    matter's own manner: paper, a strip of tape, a slight tilt that straightens under the pointer
    or when the note is opened. Hers: "can we have different colour notes? and also a tape on it
    lol". Six papers, taken in turn; the colors are the pen's pick. */
+/* The page's two own pictures. The first stands whole after his opening words, right above his
+   note. The second runs the
+   page's width at its foot and is trimmed to a strip from the middle of the picture, where
+   everything in it sits; the file itself is whole. Added 2026-10-13. */
+.deli-banner{margin:0}
+.deli-banner img{display:block;width:100%;height:auto;box-shadow:0 10px 24px var(--shadow),0 2px 5px var(--shadow)}
+.deli-banner-top{max-width:760px;margin:24px auto 30px}
+.deli-banner-foot{margin:46px 0 6px}
+.deli-banner-foot img{aspect-ratio:12/5;object-fit:cover;object-position:50% 50%}
+@media print{.deli-banner img{box-shadow:none}}
 .deli-intro{margin:0 0 18px}
 .deli-intro p{margin:0 0 12px;max-width:none;font-size:1.08rem;line-height:1.6}
 .deli .deli-terms{margin:0 0 10px}

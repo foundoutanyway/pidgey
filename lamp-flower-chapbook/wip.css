@@ -439,3 +439,46 @@ dialog.deli-zoomed button:hover,dialog.deli-zoomed button:focus-visible{text-dec
    smaller at 640px and under, and the bar is two rows again, 101px at 375 wide. */
 @media(max-width:640px){.site-nav{column-gap:2px}.site-nav a{padding:7px 6px;font-size:.76rem}}
 @media print{.deli-card{transform:none;box-shadow:none;border:1px solid var(--line);break-inside:avoid}.deli-card::before{display:none}.deli-whole>*{display:block}}
+
+/* NO NOTES (Season 1), the manga page, 2026-10-16. The pages run down one column; a torn-out
+   page is its stub picture with a code box under it, and the tracker sits above them all. */
+.manga .nn-intro{max-width:640px}
+.nn-tracker{margin:28px 0 36px;padding:18px 20px;border:1px solid var(--line);border-radius:14px;background:var(--wash)}
+.nn-tracker h3{margin:0 0 4px;font-size:1.05rem}
+.nn-tracker p{margin:0 0 14px;color:var(--muted);font-size:.92rem}
+.nn-slots{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.nn-slot{border:2px dashed var(--line);border-radius:10px;padding:10px 6px;text-align:center;font-size:.78rem;line-height:1.25;color:var(--muted);background:var(--paper);text-decoration:none}
+.nn-slot b{display:block;font-size:.95rem;color:var(--ink);margin-bottom:2px}
+.nn-slot.found{border:2px solid var(--gold);color:var(--ink)}
+.nn-slot.found::after{content:"Returned";display:block;margin-top:4px;font-weight:700;color:var(--brown-deep);letter-spacing:.06em;text-transform:uppercase;font-size:.68rem}
+.nn-count{margin-top:12px;font-weight:700}
+.nn-pages{display:flex;flex-direction:column;align-items:center;gap:34px}
+.nn-slotpage,.nn-teaser,.nn-later{width:100%;display:flex;justify-content:center}
+.nn-soon{background:var(--wash);color:var(--ink);border:2px dashed var(--line);box-shadow:none}
+.nn-page{width:100%;max-width:560px;margin:0}
+.nn-page.wide{max-width:900px}
+.nn-pages img{width:100%;height:auto;display:block;border-radius:4px;box-shadow:0 6px 22px var(--shadow);background:var(--white);cursor:zoom-in}
+.nn-page figcaption{margin-top:8px;font-size:.85rem;color:var(--muted);text-align:center}
+.nn-stubpic{width:100%;max-width:560px;display:flex;flex-direction:column;align-items:center;gap:10px}
+.nn-stub-img{width:100%}
+.nn-code{display:flex;flex-direction:column;align-items:center;gap:8px;width:100%}
+.nn-code label{font-size:.82rem;color:var(--muted)}
+.nn-code-row{display:flex;gap:8px;width:100%;max-width:330px}
+.nn-code input{flex:1;min-width:0;font:600 1rem/1 ui-monospace,Consolas,monospace;letter-spacing:.12em;text-transform:uppercase;padding:10px 12px;border:2px solid var(--ink);border-radius:8px;background:var(--paper);color:var(--ink)}
+.nn-code button{font:700 .9rem/1 system-ui,sans-serif;padding:10px 14px;border:0;border-radius:8px;background:var(--ink);color:var(--paper);cursor:pointer;white-space:nowrap}
+.nn-msg{min-height:1.2em;font-size:.85rem;color:var(--muted)}
+.nn-msg.bad{color:#c44}
+.nn-stub-img.shake{animation:nnshake .35s}
+@keyframes nnshake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.nn-page.returned img{animation:nnin .9s ease-out}
+@keyframes nnin{from{opacity:0;transform:translateY(-14px) rotate(-1.5deg)}to{opacity:1;transform:none}}
+.nn-returned-tag{display:block;text-align:center;font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--brown-deep);margin-top:4px}
+.nn-locked{width:100%;max-width:560px;aspect-ratio:2/3;border-radius:4px;background:#111;color:#ddd;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;box-shadow:0 6px 22px var(--shadow)}
+.nn-locked p{margin:0;max-width:26ch;line-height:1.5}
+.nn-teaser.wide .nn-locked{max-width:900px;aspect-ratio:3/2}
+.nn-lb{position:fixed;inset:0;z-index:100;background:rgba(10,10,12,.92);display:none;align-items:center;justify-content:center;padding:16px;cursor:zoom-out}
+.nn-lb.open{display:flex}
+.nn-lb img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain}
+.nn-lb button{position:absolute;top:12px;right:14px;font:700 1.6rem/1 system-ui,sans-serif;background:none;border:0;color:#fff;cursor:pointer;padding:6px 10px}
+@media(max-width:560px){.nn-slots{grid-template-columns:repeat(3,1fr)}}
+@media print{.nn-code,.nn-tracker{display:none}}

@@ -443,6 +443,8 @@ dialog.deli-zoomed button:hover,dialog.deli-zoomed button:focus-visible{text-dec
 /* NO NOTES (Season 1), the manga page, 2026-10-16. The pages run down one column; a torn-out
    page is its stub picture with a code box under it, and the tracker sits above them all. */
 .manga .nn-intro{max-width:640px}
+.nn-dig{margin:22px 0 0;padding:14px 18px;border:1px solid var(--line);border-left:4px solid var(--line);border-radius:4px;background:var(--white);font-size:.92rem;color:var(--muted)}
+.nn-dig p{margin:0 0 8px}.nn-dig p:last-child{margin:0}
 .nn-tracker{margin:28px 0 36px;padding:18px 20px;border:1px solid var(--line);border-radius:14px;background:var(--wash)}
 .nn-tracker h3{margin:0 0 4px;font-size:1.05rem}
 .nn-tracker p{margin:0 0 14px;color:var(--muted);font-size:.92rem}

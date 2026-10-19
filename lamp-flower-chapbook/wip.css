@@ -44,8 +44,8 @@
    in a different face and color from the entry, so a reader can tell what changed. A row whose
    value changed takes the same color. Added 2026-10-13 at her word, "updated can have a different
    font and colour to identify the changes?". The face and the color are the pen's picks. */
-.entry-copy{--upd:#1f6b66}
-@media(prefers-color-scheme:dark){.entry-copy{--upd:#86cfc6}}
+.entry-copy,.deli-addendum{--upd:#1f6b66}
+@media(prefers-color-scheme:dark){.entry-copy,.deli-addendum{--upd:#86cfc6}}
 .entry-update{display:block;margin:18px -4px 0;padding:14px 16px 2px;border-left:3px solid var(--upd);background:color-mix(in srgb,var(--upd) 8%,transparent);color:var(--upd);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
 .entry-update>span,.entry-update .update-pigeon>span{display:block;font:700 .65rem/1 system-ui,sans-serif;letter-spacing:.13em;text-transform:uppercase;margin-bottom:8px}
 .entry-copy .entry-update p{font-size:.88rem;line-height:1.55;margin:0 0 12px}
@@ -430,6 +430,7 @@ dialog.deli-zoomed button:hover,dialog.deli-zoomed button:focus-visible{text-dec
 .window-link.deli-back a::after{content:""}
 .deli-quote{margin:0;padding:0 0 0 14px;border-left:3px solid var(--tape,var(--t1))}
 .deli-quote p,.deli-whole p{margin:0 0 10px;font-size:.98rem;line-height:1.5;max-width:none}
+.deli-addendum{margin:14px 0 0;padding:12px 14px 4px}.deli-addendum h4{margin:0 0 8px;font:600 .95rem/1.35 system-ui,sans-serif;color:var(--upd)}.deli-addendum p{margin:0 0 10px;font-size:.92rem;line-height:1.5;max-width:none}.deli-addendum .deli-whole summary{color:var(--upd)}
 .deli-whole{margin-top:6px;border-top:1px dashed color-mix(in srgb,var(--ink) 22%,transparent);padding-top:6px}
 .deli-whole summary{cursor:pointer;font:700 .7rem/1.6 system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--brown-deep)}
 .deli-whole[open] summary{margin-bottom:8px}

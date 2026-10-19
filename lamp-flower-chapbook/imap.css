@@ -4,9 +4,9 @@
 
 .imap-wrap{position:relative}
 /* while the plain plate is held back and the ground is on its way, the frame keeps its shape */
-.imap .imap-view>img{aspect-ratio:1940/2800;background:#e6d6b4}
+.imap .imap-view>img{aspect-ratio:2310/3080;background:#e6d6b4}
 .imap .imap-view>img:not([src]){color:transparent}
-.imap-on .imap-view{position:relative;overflow:hidden;aspect-ratio:1940/2800;touch-action:pan-y;cursor:default;outline-offset:3px;-webkit-user-select:none;user-select:none;background:#e6d6b4}
+.imap-on .imap-view{position:relative;overflow:hidden;aspect-ratio:2310/3080;touch-action:pan-y;cursor:default;outline-offset:3px;-webkit-user-select:none;user-select:none;background:#e6d6b4}
 .imap-on .imap-view.imap-zoomed{touch-action:none;cursor:grab}
 .imap-on .imap-view.imap-dragging{cursor:grabbing}
 .imap-on .imap-view.imap-over-dot{cursor:pointer}
@@ -101,6 +101,17 @@
 .imap-aside rect{fill:#f6efdd;stroke:#4d4034;stroke-width:1}
 .imap-aside path{fill:#f6efdd;stroke:#4d4034;stroke-width:1;stroke-linejoin:round}
 .imap-aside text{font:italic 500 13.5px Newsreader,Georgia,serif;fill:#2b2622}
+/* The title card floats over the frame, at its place on the plate and above all the map draws; it keeps
+   its place and size at any zoom. Added 2026-10-19 at her word. */
+.imap-float{position:absolute;z-index:3;pointer-events:none}
+.imap-float>img{display:block;width:100%;height:auto;max-width:none;-webkit-user-select:none;user-select:none}
+.imap-float-hit{position:absolute;pointer-events:auto;cursor:default}
+.imap-float-tuck{position:absolute;right:0;transform:translateY(calc(-100% - 4px));pointer-events:auto;width:24px;height:24px;padding:0;border:1px solid #6b4a2f;border-radius:50%;background:#eadbb8;color:#3f281a;font:600 15px/1 system-ui,sans-serif;cursor:pointer;opacity:.85}
+.imap-float-tuck:hover,.imap-float-tuck:focus-visible{opacity:1}
+.imap-float-back{position:absolute;right:10px;bottom:10px;z-index:3;padding:5px 10px;border:1px solid #6b4a2f;background:#eadbb8;color:#3f281a;font:600 .74rem/1.2 system-ui,sans-serif;cursor:pointer}
+.imap-float-back[hidden],.imap-float[hidden],.imap-say[hidden]{display:none}
+.imap-say{position:absolute;pointer-events:none;transform:translate(calc(-100% + 40px),calc(-100% - 13px));padding:6px 13px;background:#f6efdd;border:1px solid #4d4034;border-radius:9px;font:italic 500 13.5px/1.2 Newsreader,Georgia,serif;color:#2b2622;white-space:nowrap}
+.imap-say:after{content:"";position:absolute;right:34px;bottom:-7px;width:11px;height:11px;background:#f6efdd;border-right:1px solid #4d4034;border-bottom:1px solid #4d4034;transform:rotate(45deg)}
 
 /* in the gazetteer below the map */
 .imap-show{margin-left:6px;font:700 .62rem/1 system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
@@ -115,4 +126,4 @@
 .imap-zoom.imap-whole{min-height:30px;padding:7px 8px}
 .imap-zoom:disabled{display:none}
 }
-@media print{.imap-bar,.imap-tools,.imap-card,.imap-tip,.imap-show,.imap-found{display:none!important}}
+@media print{.imap-bar,.imap-tools,.imap-card,.imap-tip,.imap-show,.imap-found,.imap-float-tuck,.imap-float-back{display:none!important}}

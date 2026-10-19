@@ -280,7 +280,9 @@
     return null;
   }
   function onSheet(u) { return u[0] >= V.m && u[0] <= W - V.m && u[1] >= V.m && u[1] <= H - V.m; }
-  function onTitleCard(u) { return u[0] >= V.card[0] && u[0] <= V.card[2] && u[1] >= V.card[1] && u[1] <= V.card[3]; }
+  // With the title card floating over the frame, a tap on it never reaches the map, so only the
+  // older build, which drew the card into the ground, needs this.
+  function onTitleCard(u) { return !V.float && u[0] >= V.card[0] && u[0] <= V.card[2] && u[1] >= V.card[1] && u[1] <= V.card[3]; }
 
   function tap(cx, cy) {
     var u = unitsAt(cx, cy), t = toTown(u[0], u[1]);
@@ -661,11 +663,15 @@
     var g = svg.querySelector('.imap-aside');
     if (!g) return;
     while (g.firstChild) g.removeChild(g.firstChild);
+    if (say) { say.hidden = true; say.textContent = ''; }
     if (!show || !AIR.aside) return;
     // His lines come in order, each with the step it starts at. The last one already begun is shown.
     var text = null;
     AIR.aside.lines.forEach(function (line) { if (line[0] <= n) text = line[1]; });
     if (!text) return;
+    // With the title card floating, the small card rides on it, over his head, and keeps its place
+    // and its size whatever the zoom.
+    if (say) { say.textContent = text; say.hidden = false; return; }
     var w = Math.max(120, Math.round(text.length * 6.4) + 26), h = 30, lift = 13;
     var outer = sv('g', { transform: 'translate(' + AIR.aside.at[0] + ',' + AIR.aside.at[1] + ')' });
     var mark = sv('g', { 'class': 'imap-mark' });
@@ -681,6 +687,49 @@
     g.appendChild(outer);
   }
 
+  // ------------------------------------------------------------------ the title card, floating
+  // The title card and the pigeon on it are their own picture, laid over the frame at the place the
+  // plate gives them. They keep that place and their size at any zoom, and sit above everything the
+  // map draws. A tap on the card is the card's, not the map's. A small button puts it away, and
+  // another brings it back. Added 2026-10-19 at her word: "can we have the box as a float item on a
+  // separate layer?"
+  var flo = null, say = null;
+  function makeFloat() {
+    var F = V.float;
+    if (!F) return;
+    var b = F.box, fw = b[2] - b[0], fh = b[3] - b[1];
+    function pct(v, whole) { return (v / whole * 100) + '%'; }
+    flo = el('div', 'imap-float');
+    flo.style.left = pct(b[0], W); flo.style.top = pct(b[1], H); flo.style.width = pct(fw, W);
+    var pic = el('img');
+    pic.src = F.src; pic.alt = F.alt; pic.setAttribute('draggable', 'false');
+    flo.appendChild(pic);
+    // Only the box itself takes a tap; the clear part of the picture around the pigeon lets it through.
+    var hit = el('div', 'imap-float-hit');
+    hit.style.left = pct(V.card[0] - b[0], fw); hit.style.top = pct(V.card[1] - b[1], fh);
+    hit.style.width = pct(V.card[2] - V.card[0], fw); hit.style.height = pct(V.card[3] - V.card[1], fh);
+    ['pointerdown', 'pointerup', 'pointermove', 'dblclick', 'click'].forEach(function (type) {
+      hit.addEventListener(type, function (e) { e.stopPropagation(); });
+    });
+    flo.appendChild(hit);
+    if (AIR && AIR.aside) {
+      say = el('div', 'imap-say'); say.hidden = true;
+      say.style.left = pct(AIR.aside.at[0] - b[0], fw); say.style.top = pct(AIR.aside.at[1] - b[1], fh);
+      flo.appendChild(say);
+    }
+    var back = button('Show the title card', 'imap-float-back', function () { flo.hidden = false; back.hidden = true; });
+    back.hidden = true;
+    var tuck = button('×', 'imap-float-tuck', function () { flo.hidden = true; back.hidden = false; });
+    tuck.setAttribute('aria-label', 'Put the title card away');
+    tuck.style.top = pct(V.card[1] - b[1], fh);
+    [tuck, back].forEach(function (btn) {
+      ['pointerdown', 'pointerup', 'dblclick'].forEach(function (type) { btn.addEventListener(type, function (e) { e.stopPropagation(); }); });
+    });
+    flo.appendChild(tuck);
+    view.appendChild(flo);
+    view.appendChild(back);
+  }
+
   // ------------------------------------------------------------------ putting it together
   function start() {
     img.removeAttribute('loading');
@@ -688,6 +737,7 @@
     img.setAttribute('draggable', 'false');
     fig.classList.add('imap-on');
     layer.hidden = false;
+    makeFloat();
     // The air as it is now. A page left open looks again when the reader comes back to it, and
     // every ten minutes.
     airDraw();

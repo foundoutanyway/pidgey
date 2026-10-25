@@ -54,8 +54,8 @@
 .imap-bar select{flex:0 1 auto;min-width:0;max-width:min(100%,24em)}
 .imap-bar input{width:6.2em}
 .imap-hint{flex:1 1 100%;margin:0;color:var(--muted);font-weight:400}
-.imap-btn,.imap-zoom,.imap-pick{font:700 .66rem/1 system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--brown-deep);background:var(--white);border:1px solid var(--line);padding:9px 10px;cursor:pointer}
-.imap-btn:hover,.imap-zoom:hover,.imap-pick:hover{background:var(--paper-2)}
+.imap-btn,.imap-zoom,.imap-pick,.imap-read{font:700 .66rem/1 system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--brown-deep);background:var(--white);border:1px solid var(--line);padding:9px 10px;cursor:pointer}
+.imap-btn:hover,.imap-zoom:hover,.imap-pick:hover,.imap-read:hover{background:var(--paper-2)}
 .imap-btn[aria-pressed="true"]{background:var(--brown-deep);color:var(--paper)}
 
 /* the zoom buttons: imap.js moves them down the map with the reader while it is on the screen */
@@ -85,7 +85,7 @@
 .imap-small{font-size:.82rem;color:var(--muted)}
 .imap-close{position:absolute;top:6px;right:6px;width:34px;height:34px;border:0;background:transparent;color:var(--muted);font-size:1.5rem;line-height:1;cursor:pointer}
 .imap-close:hover{color:var(--ink)}
-.imap-read{display:inline-block;margin:0 0 6px}
+.imap-read{display:inline-block;margin:0 0 6px;text-decoration:none}
 .imap-list{list-style:none;margin:0 0 10px;padding:0}
 .imap-list li{margin:0 0 6px}
 .imap-pick{display:block;width:100%;text-align:left;text-transform:none;letter-spacing:0;font:500 .9rem/1.3 inherit;padding:9px 10px}

@@ -275,6 +275,12 @@ a.egg-line{margin-left:8px;text-underline-offset:3px}
 .egg-crumb:hover,.egg-crumb:focus-visible{opacity:1;outline:none}
 .egg-crumb-found{opacity:.18}
 footer .egg-line{color:inherit;opacity:.8}
+/* The rows under the credits line on every page, the pictures and the human behind it. Added 2026-10-25 at her word. */
+footer .credits-row{flex-basis:100%;margin-top:-19px}
+footer .credits-contact{margin-top:-13px;max-width:none}
+footer .credits-contact a{color:inherit;text-decoration:underline}
+/* The book is unofficial, said where nobody can miss it. Added 2026-10-25 at her word, "make it very obvs". */
+footer .credits-notice{flex-basis:100%;margin:0;padding:10px 14px;border:2px solid #f3e6c4;border-radius:6px;color:#f3e6c4;font-weight:700;font-size:1.05rem;letter-spacing:.01em}
 .egg-line .egg-game{margin-left:0;font-style:normal;font-weight:600;color:inherit}
 @media print{.egg-drawer-wrap,.egg-beetle,.egg-crumb,.egg-line{display:none}}
 /* Copy buttons in the appendix, added by copy.js. */

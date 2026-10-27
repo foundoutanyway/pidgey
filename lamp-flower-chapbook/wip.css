@@ -491,3 +491,38 @@ dialog.deli-zoomed button:hover,dialog.deli-zoomed button:focus-visible{text-dec
 .nn-lb button{position:absolute;top:12px;right:14px;font:700 1.6rem/1 system-ui,sans-serif;background:none;border:0;color:#fff;cursor:pointer;padding:6px 10px}
 @media(max-width:560px){.nn-slots{grid-template-columns:repeat(3,1fr)}}
 @media print{.nn-code,.nn-tracker{display:none}}
+
+/* Pando Peak, a map of its own, under the regions map's words (2026-10-27) */
+.pando-plate{max-width:1000px;margin:0 auto 48px;padding:0}
+.pando-fold .pando-plate{margin:0}
+.region-group .pando-fold{max-width:none;margin:0 0 22px}
+.pando-head h3{margin:2px 0 6px;font-size:1.6rem;color:var(--brown-deep)}
+.pando-head p{margin:0 0 14px}
+.pando-open{display:block;border:3px solid var(--brown);box-shadow:0 6px 22px var(--shadow);cursor:zoom-in;line-height:0}
+.pando-open img{display:block;width:100%;height:auto}
+.pando-plate figcaption{margin-top:8px;font-size:.9rem;color:var(--brown)}
+.pando-asof{display:block;font-style:italic;font-size:.85rem;margin-top:2px}
+.pando-words{margin:10px 0 0;font-size:.92rem}
+.pando-dialog{width:min(96vw,1500px);height:min(92vh,960px);max-width:none;max-height:none;padding:0;border:0;background:#13211f;overflow:hidden}
+.pando-dialog[open]{display:flex;flex-direction:column}
+.pando-dialog::backdrop{background:rgba(12,18,23,.82)}
+.pando-bar{display:flex;align-items:center;gap:6px;padding:6px 8px;background:#0c171e;color:#f3e6c4;font:500 .82rem/1.3 system-ui,sans-serif}
+.pando-bar button{min-width:36px;height:34px;border:1px solid rgba(243,230,196,.45);border-radius:4px;background:transparent;color:#f3e6c4;font:700 1rem/1 system-ui,sans-serif;cursor:pointer;padding:0 10px}
+.pando-bar button:hover,.pando-bar button:focus-visible{background:rgba(243,230,196,.14)}
+.pando-hint{flex:1;opacity:.75;padding:0 6px}
+.pando-close{font-size:1.4rem!important}
+.pando-stage{position:relative;flex:1;overflow:hidden;touch-action:none;cursor:grab}
+.pando-stage.is-grab{cursor:grabbing}
+.pando-canvas{position:absolute;left:0;top:0;transform-origin:0 0}
+.pando-canvas img{display:block;width:100%;height:100%;user-select:none;-webkit-user-drag:none;pointer-events:none}
+.pando-dots{position:absolute;inset:0}
+.pando-dot{position:absolute;width:26px;height:26px;margin:-13px 0 0 -13px;padding:0;border:0;border-radius:50%;background:transparent;cursor:pointer;transform:scale(var(--inv,1))}
+.pando-dot.pando-stood{width:34px;height:34px;margin:-17px 0 0 -17px}
+.pando-dot:hover,.pando-dot:focus-visible,.pando-dot.is-sel{outline:none;box-shadow:0 0 0 2px #fff2c2,0 0 12px 4px rgba(255,198,85,.75)}
+.pando-info{position:absolute;left:10px;bottom:10px;max-width:min(420px,calc(100% - 20px));background:#eadbb8;color:#3f281a;border:2px solid #3f281a;border-radius:3px;padding:10px 14px;box-shadow:0 6px 22px rgba(0,0,0,.45);font-size:.92rem;line-height:1.45}
+.pando-info h4{margin:0 26px 2px 0;font-size:1.05rem}
+.pando-info p{margin:4px 0}
+.pando-info-kind{font-style:italic;color:#6b4a2f}
+.pando-info-meta{font:500 .75rem/1.4 system-ui,sans-serif;color:#6b4a2f;word-break:break-word}
+.pando-info-x{position:absolute;top:4px;right:6px;border:0;background:none;font:700 1.2rem/1 system-ui,sans-serif;color:#3f281a;cursor:pointer;padding:4px 6px}
+@media(max-width:640px){.pando-dialog{width:100vw;height:100vh}.pando-hint{display:none}}

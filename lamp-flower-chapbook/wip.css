@@ -567,4 +567,6 @@ dialog.deli-zoomed button:hover,dialog.deli-zoomed button:focus-visible{text-dec
 @media(max-width:1000px){.site-nav{flex-wrap:wrap;row-gap:2px}.site-nav .index-btn{margin-left:auto}}
 /* The text under a page's heading runs the page's full width (hers, 2026-11-02: "apply this to all pages"). */
 .section-head p,.section-head .wall-note,.section-head .wall-note p{max-width:none}
+/* The same width for the gazetteer's note, its map and the map's words (hers, 2026-11-02, on a screenshot of that page). */
+.gazetteer .gaz-disclaimer,.gazetteer .map-note,.gazetteer .map-plate,.gazetteer .wip-mapwords,.gazetteer .pando-plate{max-width:none;margin-left:0;margin-right:0}
 @media(max-width:640px){.pando-dialog{width:100vw;height:100vh}.pando-hint{display:none}}

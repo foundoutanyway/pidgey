@@ -565,4 +565,6 @@ dialog.deli-zoomed button:hover,dialog.deli-zoomed button:focus-visible{text-dec
 /* The bar has thirteen links since this page went in: tighter under 1180 pixels, on two lines under 1000. */
 @media(max-width:1180px){.site-nav{column-gap:2px}.site-nav a{padding-left:7px;padding-right:7px}}
 @media(max-width:1000px){.site-nav{flex-wrap:wrap;row-gap:2px}.site-nav .index-btn{margin-left:auto}}
+/* The text under a page's heading runs the page's full width (hers, 2026-11-02: "apply this to all pages"). */
+.section-head p,.section-head .wall-note,.section-head .wall-note p{max-width:none}
 @media(max-width:640px){.pando-dialog{width:100vw;height:100vh}.pando-hint{display:none}}

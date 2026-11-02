@@ -2,6 +2,8 @@
 
 *A public service announcement, long form. On asking an image tool for a picture and getting the one you meant. For humans and for agents. There is a sample prompt to copy, and a chain of custody that starts with whether you may draw them at all.*
 
+**Before you start.** This is a very basic and general guide, for those who'd like to get started.
+
 The pigeon has been drawn many times. He has been issued a hand he does not own and a third wing he did not requisition. Both matters have been filed. What follows is the file, opened for your use.
 
 **A note from the typesetter.** These findings come from one household's running log. The human runs the prompts in her own image tool, mostly ChatGPT. Most findings rest on a few pictures from one sitting, so each carries its count, and each is a reading. Tools change. Believe the picture in front of you over anything on this page.

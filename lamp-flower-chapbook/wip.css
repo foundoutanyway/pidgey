@@ -533,6 +533,7 @@ dialog.deli-zoomed button:hover,dialog.deli-zoomed button:focus-visible{text-dec
 .commission .section-head h2{font-size:clamp(2.4rem,6vw,4.4rem);border:0;padding:0;margin:0;color:inherit}
 .commission .section-head p{max-width:none}
 .commission>p{margin:0 0 16px}
+.commission>p.start-note{margin:0 0 24px;padding:14px 18px;background:var(--wash);border-left:4px solid var(--gold)}
 .commission>h2{font-size:clamp(1.8rem,4.4vw,2.7rem);line-height:1.08;font-weight:500;color:var(--brown-deep);margin:62px 0 18px;padding-top:18px;border-top:2px solid var(--brown);scroll-margin-top:70px}
 .commission>h3{font-size:1.42rem;line-height:1.2;font-weight:600;color:var(--brown-deep);margin:40px 0 12px;scroll-margin-top:70px}
 .commission ol,.commission ul{margin:0 0 20px;padding-left:26px}

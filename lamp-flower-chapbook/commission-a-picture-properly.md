@@ -77,6 +77,14 @@ A single frame from a 2D animated film: thin clean outlines, flat colors, two-to
 5. **Change only those words and run again.** Keep what held. If one detail is wrong in a good picture, try the tool's edit mode before rerunning the whole thing.
 6. **File what came back.** Keep the prompt, what the tool added and the human's notes on it, beside the picture. The prompt you wrote may differ from the one that was pasted. An unfiled picture teaches nobody anything.
 
+Here is that procedure on three bad pictures, made on purpose, one take each.
+
+![The pigeon on a stone quay beside a red mailbox, painted in watercolor under a pink and lavender sunrise.](assets/commission/procedure-wrong-style.webp "Step 2. The style words changed to hand-painted watercolor. A storybook came back. Prompt by 5.5.")
+
+![The pigeon beside a red mailbox, holding a rubber stamp and a teacup. The wing holding the stamp ends in three fingers and a thumb.](assets/commission/procedure-the-hand.webp "Steps 3 and 4. Left out: the sentence saying he has no hands. Three fingers and a thumb came back. Prompt by 5.5.")
+
+![The same scene, with the wing tips split into two smooth lobes like a mitten that pinch the stamp and the cup.](assets/commission/procedure-the-mitten.webp "Step 5. Only that sentence put back. A mitten came back, so it helped and did not cure it. Prompt by 5.5.")
+
 ## What the tool did.
 
 The note in brackets says how much each finding rests on.

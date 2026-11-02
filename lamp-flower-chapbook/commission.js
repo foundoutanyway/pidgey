@@ -45,8 +45,24 @@
     pre.parentNode.insertBefore(button('Copy the prompt', function () { return pre.textContent; }), pre);
   });
 
-  Array.prototype.forEach.call(root.querySelectorAll('td code.call'), function (code) {
+  Array.prototype.forEach.call(root.querySelectorAll('td code.call, .cc-call code.call'), function (code) {
     var text = code.textContent;
     code.parentNode.appendChild(button('Copy', function () { return text; }));
+  });
+
+  // The worked example's long prompt folds to its first lines. Without this script it stays whole,
+  // and its Copy button takes the whole prompt either way.
+  Array.prototype.forEach.call(root.querySelectorAll('.prompt.foldable'), function (box) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'copy fold-toggle';
+    function set(folded) {
+      box.classList.toggle('is-folded', folded);
+      b.textContent = folded ? box.getAttribute('data-show') : box.getAttribute('data-hide');
+      b.setAttribute('aria-expanded', folded ? 'false' : 'true');
+    }
+    b.addEventListener('click', function () { set(!box.classList.contains('is-folded')); });
+    box.appendChild(b);
+    set(true);
   });
 })();

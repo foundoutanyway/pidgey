@@ -121,6 +121,12 @@ The note in brackets says how much each finding rests on.
 
 **The genre brings its own faces.** A K-pop campaign brief returned men in their early twenties, whatever else the text said about them. *(1 evening)*
 
+**"Empty" needs a head count.** "An empty stone quay" came back with a wall, ivy, a lighthouse and boats. Five empty places that said "exactly zero people" and named who to leave out came back empty. *(8 prints, then 5)*
+
+**Say what each attachment controls.** An empty place and a character sheet, attached with a line saying what each one governs, put two people into that place, with its camera and its light. *(5 of 6 prints)*
+
+**"Dead-on" squares up a sheet.** Spelling out a flat front view, with no turn and no weight on one hip, squared every figure against a reference that stood at an angle. A flat gray background held across the panels. *(7 sheets)*
+
 ## The chain of custody.
 
 A prompt is one link. This is the whole chain, from the request to the filed picture, in the order one household walks it. Likeness comes up twice: once as permission, before anything is drawn, and once as resemblance, after the picture comes back. The pigeon considers the second one personal.

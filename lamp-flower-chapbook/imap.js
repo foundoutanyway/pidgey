@@ -547,14 +547,15 @@
   var AIR = D.air || null, airShown = null;
 
   function airStep(now) { return Math.floor((now - Date.parse(AIR.t0)) / (AIR.step_h * 3600000)); }
-  // Even between the entries, held after the last, and null before the first.
+  // Even between the entries, held after the last, and null before the first, or once the band
+  // lies wholly outside the box, which is how the record ends it.
   function airIn(n) {
-    var s = AIR.steps;
+    var s = AIR.steps, v = s[s.length - 1][1];
     if (n < s[0][0]) return null;
     for (var i = 0; i < s.length - 1; i++) {
-      if (n <= s[i + 1][0]) return s[i][1] + (s[i + 1][1] - s[i][1]) * (n - s[i][0]) / (s[i + 1][0] - s[i][0]);
+      if (n <= s[i + 1][0]) { v = s[i][1] + (s[i + 1][1] - s[i][1]) * (n - s[i][0]) / (s[i + 1][0] - s[i][0]); break; }
     }
-    return s[s.length - 1][1];
+    return v + AIR.band <= 0 ? null : v;
   }
   // The air as it stands now: the clear box, the band's width inside its edge, and how thick the
   // band is. Null when there is none.

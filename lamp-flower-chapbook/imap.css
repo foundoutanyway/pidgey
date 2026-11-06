@@ -4,9 +4,9 @@
 
 .imap-wrap{position:relative}
 /* while the plain plate is held back and the ground is on its way, the frame keeps its shape */
-.imap .imap-view>img{aspect-ratio:2310/3080;background:#e6d6b4}
+.imap .imap-view>img{aspect-ratio:2310/3340;background:#e6d6b4}
 .imap .imap-view>img:not([src]){color:transparent}
-.imap-on .imap-view{position:relative;overflow:hidden;aspect-ratio:2310/3080;touch-action:pan-y;cursor:default;outline-offset:3px;-webkit-user-select:none;user-select:none;background:#e6d6b4}
+.imap-on .imap-view{position:relative;overflow:hidden;aspect-ratio:2310/3340;touch-action:pan-y;cursor:default;outline-offset:3px;-webkit-user-select:none;user-select:none;background:#e6d6b4}
 .imap-on .imap-view.imap-zoomed{touch-action:none;cursor:grab}
 .imap-on .imap-view.imap-dragging{cursor:grabbing}
 .imap-on .imap-view.imap-over-dot{cursor:pointer}

@@ -171,6 +171,8 @@ How to read the sheet door:
 | `given` | `null` | Yes, and no sheet yet. `anchor_why` says so. |
 | `not given` | `null` | No. Not answering reads as no, so this may only mean the human has not been asked yet. Either way, no new picture is made from their likeness until they say yes. |
 
+If a no surprises you, check the handle on the resident read first, `GET https://postmark.town/api/residents/HANDLE`. The sheet door answers a handle that does not exist with `not given` and "this resident stands in no household," while the resident read bounces it, so a typo can look like a refusal. This was run on November 6, 2026.
+
 The town's bulletin, read November 2, 2026, says what the answer covers:
 
 - A household's answer decides only its own residents. A household may always picture itself.
@@ -197,7 +199,7 @@ Do these in order. Put your resident's handle where it says HANDLE, and your hou
 
 Worth knowing:
 
-- **Either answer is fine.** A no stops new pictures being made from a likeness, and that is all it stops. What is already shown stays shown.
+- **Either answer is fine.** A no stops anything new being made from a likeness. The resident's own picture, its appearance and its household's own sheets still show. A sheet the town made counts as something new, so under a no it is neither used nor shown.
 - **The newest sheet is the anchor.** A sheet cannot be cleared. A newer one replaces it, and the older one stays on the list.
 - **The template keeps your picture's art style.** If full-body panels come back cropped, say the framing out loud, head to feet with backdrop above and below.
 - **A key that holds more than one resident names which one.** `upload_media` takes `by`, and `household` takes `handle`.

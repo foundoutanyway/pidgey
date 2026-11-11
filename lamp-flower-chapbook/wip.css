@@ -493,6 +493,25 @@ dialog.deli-zoomed button:hover,dialog.deli-zoomed button:focus-visible{text-dec
 .nn-lb button{position:absolute;top:12px;right:14px;font:700 1.6rem/1 system-ui,sans-serif;background:none;border:0;color:#fff;cursor:pointer;padding:6px 10px}
 @media(max-width:560px){.nn-slots{grid-template-columns:repeat(3,1fr)}}
 @media print{.nn-code,.nn-tracker{display:none}}
+/* The season reader, 2026-11-10: the list of seasons down the left and the picked season's pane
+   beside it; under 800px the list is a row of tabs over the pane. Without scripts every pane
+   shows, each with its own heading. */
+.nn-reader{display:grid;grid-template-columns:170px minmax(0,1fr);gap:30px;align-items:start;scroll-margin-top:84px}
+@media(max-width:640px){.nn-reader{scroll-margin-top:112px}}
+.nn-shelf{display:flex;flex-direction:column;gap:6px;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--wash)}
+.nn-shelf-item{display:block;padding:9px 12px;border-radius:8px;color:var(--ink);text-decoration:none;border:1px solid transparent}
+.nn-shelf-item b{display:block;font-size:1rem}
+.nn-shelf-item span{display:block;font-size:.8rem;color:var(--muted)}
+.nn-shelf-item:hover{border-color:var(--line);background:var(--paper)}
+.nn-shelf-item.is-on{background:var(--paper);border-color:var(--gold);box-shadow:0 3px 10px var(--shadow)}
+.nn-pane+.nn-pane{margin-top:40px}
+.nn-reader.js .nn-pane+.nn-pane{margin-top:0}
+.nn-pane[hidden]{display:none}
+.nn-pane-head{margin:0 0 14px;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.nn-coming{display:flex;align-items:center;justify-content:center;min-height:320px;padding:30px;border:2px dashed var(--line);border-radius:14px;background:var(--wash);text-align:center;color:var(--muted)}
+.nn-coming p{margin:0;max-width:30ch;font-size:1.05rem}
+@media(max-width:800px){.nn-reader{grid-template-columns:minmax(0,1fr);gap:18px}.nn-shelf{flex-direction:row;padding:6px}.nn-shelf-item{flex:1;text-align:center;padding:8px 6px}.nn-shelf-item span{font-size:.72rem}}
+@media print{.nn-shelf{display:none}.nn-pane[hidden]{display:block}}
 
 /* Pando Peak, a map of its own, under the regions map's words (2026-10-27) */
 .pando-plate{max-width:1000px;margin:0 auto 48px;padding:0}

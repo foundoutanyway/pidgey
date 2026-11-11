@@ -4,6 +4,50 @@
 // page is unscrambled here by XOR with SHA-256 of the key and a block counter, the same sums
 // build_wip.py ran. The words a reader has found are kept in the reader's own browser, under
 // pidgeyMangaWords, and nowhere else. Nothing is sent anywhere.
+// The season reader, 2026-11-10: the list on the left picks which season's pane shows. The
+// address carries it as #season-1, #season-2, and an address that points inside a pane, such as
+// a torn-out chapter's, opens that pane. Without this script every pane shows.
+(function () {
+  var reader = document.querySelector('.nn-reader');
+  if (!reader) return;
+  var items = [].slice.call(reader.querySelectorAll('.nn-shelf-item'));
+  var panes = [].slice.call(reader.querySelectorAll('.nn-pane'));
+  reader.classList.add('js');
+  function pick(id) {
+    var found = false;
+    panes.forEach(function (p) { var on = p.dataset.season === id; p.hidden = !on; if (on) found = true; });
+    if (!found) return pick(panes[0].dataset.season);
+    items.forEach(function (a) { var on = a.dataset.season === id; a.classList.toggle('is-on', on); a.setAttribute('aria-current', on ? 'true' : 'false'); });
+  }
+  // Brings a thing to the top of the window, clear of the book's menu bar, whose height changes
+  // with the window's width, so it is measured each time rather than guessed.
+  function settle(el) {
+    var nav = document.querySelector('.site-nav');
+    var off = (nav ? Math.max(0, nav.getBoundingClientRect().bottom) : 0) + 12;
+    window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - off, behavior: 'instant' });
+  }
+  function fromHash() {
+    var h = decodeURIComponent(location.hash.slice(1));
+    var el = h && document.getElementById(h);
+    var pane = el && el.closest('.nn-pane');
+    pick(pane ? pane.dataset.season : panes[0].dataset.season);
+    if (el === pane && pane) settle(reader);
+    else if (el && pane) settle(el);
+  }
+  items.forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      history.replaceState(null, '', a.getAttribute('href'));
+      pick(a.dataset.season);
+      settle(reader);
+    });
+  });
+  window.addEventListener('hashchange', fromHash);
+  fromHash();
+  // The browser makes its own jump to the address's anchor when the page has loaded, after this
+  // script, and that jump does not clear the menu bar; so the reader is settled again after it.
+  if (location.hash) window.addEventListener('load', function () { setTimeout(fromHash, 0); });
+})();
 (function () {
   var sec = document.getElementById('manga');
   if (!sec || !window.crypto || !crypto.subtle) return;
@@ -107,11 +151,13 @@
   document.body.appendChild(lb);
   var big = lb.querySelector('img');
   function close() { lb.classList.remove('open'); document.body.style.overflow = ''; }
-  sec.querySelector('.nn-pages').addEventListener('click', function (e) {
-    var im = e.target.closest('img');
-    if (!im) return;
-    big.src = im.currentSrc || im.src; big.alt = im.alt;
-    lb.classList.add('open'); document.body.style.overflow = 'hidden';
+  sec.querySelectorAll('.nn-pages').forEach(function (pages) {
+    pages.addEventListener('click', function (e) {
+      var im = e.target.closest('img');
+      if (!im) return;
+      big.src = im.currentSrc || im.src; big.alt = im.alt;
+      lb.classList.add('open'); document.body.style.overflow = 'hidden';
+    });
   });
   lb.addEventListener('click', close);
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });

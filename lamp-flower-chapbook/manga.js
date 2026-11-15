@@ -51,11 +51,34 @@
 (function () {
   var sec = document.getElementById('manga');
   if (!sec || !window.crypto || !crypto.subtle) return;
-  var ITER = +sec.dataset.iter, STORE = 'pidgeyMangaWords';
-  var slots = [].slice.call(sec.querySelectorAll('.nn-slotpage'));
-  // The pages that open only when all five are back: the Season 2 teaser and the omake.
-  var teasers = [].slice.call(sec.querySelectorAll('.nn-teaser'));
+  var ITER = +sec.dataset.iter;
   var enc = new TextEncoder();
+  // Draws a page into its frame. Shared by every season's hunt and by the Friday chapters below.
+  function esc(s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+  function show(el, url, fresh) {
+    el.innerHTML = '<figure class="nn-page' + (el.classList.contains('wide') ? ' wide' : '') + (fresh ? ' returned' : '') + '"><img src="' + url + '" alt="' + esc(el.dataset.alt) + '"><figcaption>' +
+      esc(el.dataset.cap) + '</figcaption>' + (!el.classList.contains('nn-slotpage') ? '' : '<span class="nn-returned-tag">' + esc(sec.dataset.returned) + '</span>') + '</figure>';
+    el.classList.add('is-open');
+  }
+  // Each season's hunt runs on its own, inside its own pane, and keeps its own words. Added
+  // 2026-11-14 at her word, "can you make sure that the new passwords we build for s2 do not
+  // override people's s1 passwords?". Season 1's words stay under pidgeyMangaWords, the name
+  // readers' browsers already hold, so nothing a reader has found moves or is lost. Any other
+  // season keeps its words under the name in its pane's data-store, or, if the build forgets
+  // one, under pidgeyMangaWords-season-<n>, so it can never write to Season 1's, even where
+  // two seasons use the same chapter key.
+  [].slice.call(sec.querySelectorAll('.nn-pane')).forEach(function (pane) {
+    if (pane.querySelector('.nn-slotpage')) hunt(pane);
+  });
+  function hunt(pane) {
+  var season = pane.dataset.season;
+  var STORE = season === '1' ? 'pidgeyMangaWords' : (pane.dataset.store || 'pidgeyMangaWords-season-' + season);
+  if (season !== '1' && STORE === 'pidgeyMangaWords') return;
+  var slots = [].slice.call(pane.querySelectorAll('.nn-slotpage'));
+  // The pages that open only when all of this season's pages are back.
+  var teasers = [].slice.call(pane.querySelectorAll('.nn-teaser'));
+  var countEl = pane.querySelector('.nn-count');
+  var done = pane.dataset.done || sec.dataset.done, open = pane.dataset.open || sec.dataset.open;
   var words = {};
   try { words = JSON.parse(localStorage.getItem(STORE) || '{}') || {}; } catch (e) { words = {}; }
   function save() { try { localStorage.setItem(STORE, JSON.stringify(words)); } catch (e) {} }
@@ -88,16 +111,10 @@
     }
     return URL.createObjectURL(new Blob([out], { type: 'image/webp' }));
   }
-  function esc(s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
-  function show(el, url, fresh) {
-    el.innerHTML = '<figure class="nn-page' + (el.classList.contains('wide') ? ' wide' : '') + (fresh ? ' returned' : '') + '"><img src="' + url + '" alt="' + esc(el.dataset.alt) + '"><figcaption>' +
-      esc(el.dataset.cap) + '</figcaption>' + (!el.classList.contains('nn-slotpage') ? '' : '<span class="nn-returned-tag">' + esc(sec.dataset.returned) + '</span>') + '</figure>';
-    el.classList.add('is-open');
-  }
   function count() {
     var n = 0;
-    sec.querySelectorAll('.nn-slot').forEach(function (s) { var on = !!words[s.dataset.k]; s.classList.toggle('found', on); if (on) n++; });
-    document.getElementById('nnCount').textContent = n + ' of 5 pages returned. ' + (n === slots.length ? sec.dataset.done : sec.dataset.open);
+    pane.querySelectorAll('.nn-slot').forEach(function (s) { var on = !!words[s.dataset.k]; s.classList.toggle('found', on); if (on) n++; });
+    if (countEl) countEl.textContent = n + ' of ' + slots.length + ' pages returned. ' + (n === slots.length ? done : open);
     return n;
   }
   async function openTeaser(fresh) {
@@ -135,6 +152,7 @@
     if (count() === slots.length) openTeaser(false);
   })();
   count();
+  }
   // Chapters that come out on a Friday: each is set in once the reader's clock passes its hour,
   // checked at load and again every minute while the page is open.
   function release() {
